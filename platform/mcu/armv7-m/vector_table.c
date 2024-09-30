@@ -36,7 +36,7 @@ void __attribute__((naked)) bootloader_startup(int arg)
         *p_ram++ = *p_flash++;
     }
 
-    platform_main(arg);// @NOTE 
+    platform_main(arg);
 
     while (1)
         ;

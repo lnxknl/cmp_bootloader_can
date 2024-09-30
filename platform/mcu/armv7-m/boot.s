@@ -29,7 +29,7 @@
 .syntax unified
 .section .text
 .global reset_handler
-reset_handler:// @NOTE 
+reset_handler:
     ldr     r5, =RAM_START
     ldr     r1, [r5, #0]    @ load magic value from RAM
     ldr     r2, [r5, #4]
@@ -40,10 +40,10 @@ reset_handler:// @NOTE
 
     ldr     r3, =magic_value_lo
     cmp     r1, r3
-    bne     bootloader_startup// @NOTE 
+    bne     bootloader_startup
     ldr     r3, =magic_value_hi
     cmp     r2, r3
-    bne     bootloader_startup// @NOTE 
+    bne     bootloader_startup
 
     @ magic value was correct
     ldrb    r0, [r5, #7]    @ load argument byte
@@ -57,7 +57,7 @@ reset_handler:// @NOTE
     cmp     r0, #3
     beq     _st_bootloader
     @ default: launch bootloader, argument r0
-    b       bootloader_startup// @NOTE 
+    b       bootloader_startup
 
 _app_jmp:
     ldr     r0, =application_address
