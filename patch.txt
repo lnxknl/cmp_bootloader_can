@@ -1,0 +1,48 @@
+diff --git a/platform/mcu/armv7-m/boot.s b/platform/mcu/armv7-m/boot.s
+index a46e875..95b13ed 100644
+--- a/platform/mcu/armv7-m/boot.s
++++ b/platform/mcu/armv7-m/boot.s
+@@ -29,7 +29,7 @@
+ .syntax unified
+ .section .text
+ .global reset_handler
+-reset_handler:
++reset_handler:// @NOTE 
+     ldr     r5, =RAM_START
+     ldr     r1, [r5, #0]    @ load magic value from RAM
+     ldr     r2, [r5, #4]
+@@ -40,10 +40,10 @@ reset_handler:
+ 
+     ldr     r3, =magic_value_lo
+     cmp     r1, r3
+-    bne     bootloader_startup
++    bne     bootloader_startup// @NOTE 
+     ldr     r3, =magic_value_hi
+     cmp     r2, r3
+-    bne     bootloader_startup
++    bne     bootloader_startup// @NOTE 
+ 
+     @ magic value was correct
+     ldrb    r0, [r5, #7]    @ load argument byte
+@@ -57,7 +57,7 @@ reset_handler:
+     cmp     r0, #3
+     beq     _st_bootloader
+     @ default: launch bootloader, argument r0
+-    b       bootloader_startup
++    b       bootloader_startup// @NOTE 
+ 
+ _app_jmp:
+     ldr     r0, =application_address
+diff --git a/platform/mcu/armv7-m/vector_table.c b/platform/mcu/armv7-m/vector_table.c
+index 640ca73..634c5b8 100644
+--- a/platform/mcu/armv7-m/vector_table.c
++++ b/platform/mcu/armv7-m/vector_table.c
+@@ -36,7 +36,7 @@ void __attribute__((naked)) bootloader_startup(int arg)
+         *p_ram++ = *p_flash++;
+     }
+ 
+-    platform_main(arg);
++    platform_main(arg);// @NOTE 
+ 
+     while (1)
+         ;

@@ -1,0 +1,56 @@
+depends:
+    - test-runner
+    - cmp_mem_access
+    - crc
+
+tests:
+    - tests/can_datagram_tests.cpp
+    - tests/mocks/flash_writer_mock.cpp
+    - tests/mocks/can_interface_mock.cpp
+    - tests/mocks/boot_arg.cpp
+    - tests/config_tests.cpp
+    - tests/flash_command_tests.cpp
+    - tests/config_commands_tests.cpp
+    - tests/datagrams_command_tests.cpp
+    - tests/integration_tests.cpp
+    - tests/mocks/platform_mock.c
+    - tests/mocks/timeout_mock.c
+
+source:
+    - can_datagram.c
+    - command.c
+    - config.c
+    - bootloader.c
+    - dependencies/cmp/cmp.c
+
+target.armv7-m:
+    - platform/mcu/armv7-m/boot_arg.c
+    - platform/mcu/armv7-m/vector_table.c
+    - platform/mcu/armv7-m/boot.s
+    - platform/mcu/armv7-m/timeout_timer.c
+
+target.stm32f3:
+    - platform/mcu/stm32f3/flash_writer.c
+    - platform/mcu/stm32f3/can_interface.c
+
+target.stm32f4:
+    - platform/mcu/stm32f4/flash_writer.c
+    - platform/mcu/stm32f4/can_interface.c
+
+target.stm32f1:
+    - platform/mcu/stm32f1/flash_writer.c
+    - platform/mcu/stm32f1/can_interface.c
+
+include_directories:
+    - ./
+
+templates:
+    platform/rc-board-v1/include.jinja: 'platform/rc-board-v1/include.mk'
+    platform/motor-board-v1/include.jinja: 'platform/motor-board-v1/include.mk'
+    platform/olimex-e407/include.jinja: 'platform/olimex-e407/include.mk'
+    platform/can-io-board/include.jinja: 'platform/can-io-board/include.mk'
+    platform/nucleo-board-stm32f103rb/include.jinja: 'platform/nucleo-board-stm32f103rb/include.mk'
+    platform/nucleo-board-stm32f334r8/include.jinja: 'platform/nucleo-board-stm32f334r8/include.mk'
+    platform/uwb-beacon/include.jinja: 'platform/uwb-beacon/include.mk'
+    platform/sensor-board/include.jinja: 'platform/sensor-board/include.mk'
+    platform/actuator-board/include.jinja: 'platform/actuator-board/include.mk'
